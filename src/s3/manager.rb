@@ -22,7 +22,7 @@ module S3
         private_methods
         
         def parse_cw_metrics(payload)
-            csv = "recorded_at,cpu, mem, ior, iow\n"
+            csv = "recorded_at,cpu,mem,ior,iow\n"
             payload[0].timestamps.size.times do |i|
                 recorded_at = payload[0].timestamps[i]
                 cpu = payload[0].values[i]
