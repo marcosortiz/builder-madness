@@ -1,0 +1,25 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    aws-eventstream (1.0.2)
+    aws-partitions (1.147.0)
+    aws-sdk-cloudwatch (1.18.0)
+      aws-sdk-core (~> 3, >= 3.48.2)
+      aws-sigv4 (~> 1.1)
+    aws-sdk-core (3.48.3)
+      aws-eventstream (~> 1.0, >= 1.0.2)
+      aws-partitions (~> 1.0)
+      aws-sigv4 (~> 1.1)
+      jmespath (~> 1.0)
+    aws-sigv4 (1.1.0)
+      aws-eventstream (~> 1.0, >= 1.0.2)
+    jmespath (1.4.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  aws-sdk-cloudwatch
+
+BUNDLED WITH
+   1.16.1
