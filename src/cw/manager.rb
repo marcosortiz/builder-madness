@@ -19,7 +19,7 @@ module CW
 
 
         def initialize(opts={})
-            @cw_client  = Aws::CloudWatch::Client.new
+            @client  = Aws::CloudWatch::Client.new
         end
 
         
@@ -110,8 +110,8 @@ module CW
                 scan_by: "TimestampAscending", # accepts TimestampDescending, TimestampAscending
                 max_datapoints: 100800,
               }
-
-              resp = @cw_client.get_metric_data(params);
+              
+              resp = @client.get_metric_data(params);
         end
 
     end
