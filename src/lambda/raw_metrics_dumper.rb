@@ -14,6 +14,8 @@ module Lambda
         
         def self.handler(event:, context:)
 
+            puts event
+
             data = event["awslogs"]["data"]
             decoded_payload = Zlib::GzipReader.new(StringIO.new(Base64.decode64(data))).read
             hash = JSON.parse(decoded_payload)

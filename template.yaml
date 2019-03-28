@@ -30,6 +30,7 @@ Resources:
                     - Effect: Allow
                       Action:
                         - cloudwatch:GetMetricData
+                        - ec2:DescribeInstances
                         - s3:PutObject
                       Resource: '*'
 
