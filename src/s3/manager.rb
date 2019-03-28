@@ -10,12 +10,12 @@ module S3
             @client  = Aws::S3::Client.new
         end
 
-        def put_object(bucket_name, instance_id, payload)
+        def put_object(bucket_name, key, payload)
             csv = parse_cw_metrics(payload)
             resp = @client.put_object({
                 body: csv, 
                 bucket: bucket_name, 
-                key: "raw/#{instance_id}_#{Time.now.to_i}.csv", 
+                key: "raw/#{key}", 
             })
         end
 
