@@ -22,11 +22,22 @@ module S3
         private_methods
         
         def parse_cw_metrics(payload)
+            hash = {}
+            payload.each do |e|
+                e.timestamps.each_with_index do |t, i|
+                    hash[t] ||= {}
+                    hash[t][e.id] = e.values[i]
+                end
+            end
+
             csv = "recorded_at,cpu,mem,ior,iow\n"
-            payload[0].timestamps.size.times do |i|
-                recorded_at = payload[0].timestamps[i]
-                cpu = payload[0].values[i]
-                csv += "#{recorded_at},#{cpu},0,0,0\n"
+            hash.each do |k, v|
+                recorded_at = k
+                cpu = v['cpu']
+                mem = v['mem']
+                diskio_read = v['diskio_read']
+                diskio_write = v['diskio_write']
+                csv += "#{recorded_at},#{cpu},#{mem},#{diskio_read},#{diskio_write}\n"
             end
             csv
         end

@@ -1,6 +1,6 @@
 require 'json'
 require 'aws-sdk-cloudwatch'
-
+require_relative '../ec2/manager'
 
 module CW
     class Manager
@@ -20,11 +20,15 @@ module CW
 
         def initialize(opts={})
             @client  = Aws::CloudWatch::Client.new
+            @ec2_client = EC2::Manager.new
         end
 
         
         def get_metric_data(instance_id, start_time, end_time)
 
+            instance_details = @ec2_client.describe_instances(instance_id)
+            instance_type = instance_details[:type]
+            image_id = instance_details[:image_id]
 
             params = {
                 metric_data_queries: [ # required
@@ -58,9 +62,17 @@ module CW
                                     name: "InstanceId", # required
                                     value: instance_id, # required
                                 },
+                                {
+                                    name: "ImageId", # required
+                                    value: image_id, # required
+                                },
+                                {
+                                    name: "InstanceType", # required
+                                    value: instance_type, # required
+                                }
                             ],
                         },
-                        period: 1, # required
+                        period: 60, # required
                         stat: "Maximum", # required
                         unit: MEM_METRIC_UNIT, 
                     },
@@ -77,9 +89,21 @@ module CW
                                     name: "InstanceId", # required
                                     value: instance_id, # required
                                 },
+                                {
+                                    name: "ImageId", # required
+                                    value: image_id, # required
+                                },
+                                {
+                                    name: "InstanceType", # required
+                                    value: instance_type, # required
+                                },
+                                {
+                                    name: "name", # required
+                                    value: 'xvda', # required
+                                },
                             ],
                         },
-                        period: 1, # required
+                        period: 60, # required
                         stat: "Maximum", # required
                         unit: IOR_METRIC_UNIT, 
                     },
@@ -96,9 +120,21 @@ module CW
                                     name: "InstanceId", # required
                                     value: instance_id, # required
                                 },
+                                {
+                                    name: "ImageId", # required
+                                    value: image_id, # required
+                                },
+                                {
+                                    name: "InstanceType", # required
+                                    value: instance_type, # required
+                                },
+                                {
+                                    name: "name", # required
+                                    value: 'xvda', # required
+                                },
                             ],
                         },
-                        period: 1, # required
+                        period: 60, # required
                         stat: "Maximum", # required
                         unit: IOW_METRIC_UNIT, 
                     },

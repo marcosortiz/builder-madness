@@ -1,6 +1,5 @@
 source "https://rubygems.org"
 
-group :test do
-    gem 'aws-sdk-cloudwatch'
-    gem 'aws-sdk-s3'
-end
+gem 'aws-sdk-cloudwatch'
+gem 'aws-sdk-ec2'
+gem 'aws-sdk-s3'
