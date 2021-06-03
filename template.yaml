@@ -1,0 +1,41 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Globals:
+    Function:
+        Timeout: 900
+
+Resources:    
+    RawMetricsDumper:
+        Type: AWS::Serverless::Function
+        Properties:
+            CodeUri: ./src
+            Handler: lambda/raw_metrics_dumper.Lambda::RawMetricsDumper.handler
+            Runtime: ruby2.5
+            Environment:
+                Variables:
+                    S3_BUCKET: buildermadness-houteamb-output
+            Events:
+              TaskFinished:              
+                  Type: CloudWatchEvent
+                  Properties:
+                    Pattern:
+                      source:
+                        - BuilderMadnessTaskTerminated
+
+            Policies:
+                - AWSLambdaExecute # Managed Policy
+                - Version: '2012-10-17' # Policy Document
+                  Statement:
+                    - Effect: Allow
+                      Action:
+                        - cloudwatch:GetMetricData
+                        - ec2:DescribeInstances
+                        - s3:PutObject
+                      Resource: '*'
+
+
+Outputs:
+    RawMetricsDumper:
+        Description: RawMetricsDumper function ARN
+        Value: !GetAtt RawMetricsDumper.Arn
